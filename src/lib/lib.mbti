@@ -1,0 +1,71 @@
+package username/hello/lib
+
+// Values
+fn hello() -> String
+
+fn regex_to_nfa(Regex) -> NFA
+
+fn reset_id() -> Unit
+
+// Types and methods
+pub enum Edge {
+  Epsilon
+  Char(Char)
+}
+impl Edge {
+  default() -> Self
+  to_json(Self) -> Json
+  to_string(Self) -> String
+}
+
+type Id
+impl Id {
+  compare(Self, Self) -> Int
+  default() -> Self
+  op_equal(Self, Self) -> Bool
+  to_json(Self) -> Json
+  to_string(Self) -> String
+}
+
+pub struct NFA {
+  pub start : State
+  pub states : Array[State]
+  pub final : State
+}
+impl NFA {
+  new(~start : State, ~states : Array[State], ~final : State) -> Self
+  to_mermaid(Self) -> String
+}
+
+pub enum Regex {
+  Seq(Regex, Regex)
+  Alt(Regex, Regex)
+  Star(Regex)
+  Plus(Regex)
+  Opt(Regex)
+  Char(Char)
+  Empty
+}
+impl Regex {
+  to_string(Self) -> String
+}
+
+pub struct State {
+  pub id : Id
+  pub transitions : Array[(Edge, State)]
+}
+impl State {
+  closure(Self) -> Set[Self]
+  connect_to(Self, Self, ~edge? : Char) -> Unit
+  new(~name? : String) -> Self
+}
+
+// Type aliases
+
+// Traits
+
+// Extension Methods
+impl Show for Regex
+
+impl ToJson for State
+
